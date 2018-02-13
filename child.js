@@ -43,11 +43,24 @@ process.on("message", async ({ script, target, args }) => {
 
     const farm = createWorkersFarm();
     const rules = Array.isArray(rule)
-      ? rule.map(target => ({ target, rule: mod[target] }))
+      ? rule.map(target => {
+          if (Array.isArray(target)) {
+            return target.map(t => ({ target: t, rule: mod[t] }));
+          } else {
+            return { target, rule: mod[target] };
+          }
+        })
       : [{ target, rule }];
 
-    for ({ target, rule } of rules) {
-      await runRule(farm, target, rule);
+    // Sequence
+    for (rule of rules) {
+      if (Array.isArray(rule)) {
+        await Promise.all(
+          rule.map(({ target, rule }) => runRule(farm, target, rule))
+        );
+      } else {
+        await runRule(farm, rule.target, rule.rule);
+      }
     }
 
     farm.end();
