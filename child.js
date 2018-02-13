@@ -6,6 +6,7 @@ const unsafe_process /*: any */ = process;
 
 process.title = "projector-child";
 
+const { createWorkersFarm } = require("./lib/workers");
 const runRule = require("./lib/run-rule");
 
 if (typeof process.send !== "function") {
@@ -28,7 +29,7 @@ function error(err) {
   });
 }
 
-process.on("message", ({ script, target, args }) => {
+process.on("message", async ({ script, target, args }) => {
   try {
     let mod = unsafe_require(script);
     let rule = mod[target];
@@ -40,9 +41,17 @@ process.on("message", ({ script, target, args }) => {
       return;
     }
 
-    runRule(target, rule)
-      .then(() => close("complete", "Done!"))
-      .catch(e => error(e));
+    const farm = createWorkersFarm();
+    const rules = Array.isArray(rule)
+      ? rule.map(target => ({ target, rule: mod[target] }))
+      : [{ target, rule }];
+
+    for ({ target, rule } of rules) {
+      await runRule(farm, target, rule);
+    }
+
+    farm.end();
+    close("complete", "Done!");
   } catch (err) {
     error(err);
     return;
