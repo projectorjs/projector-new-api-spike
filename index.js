@@ -54,7 +54,7 @@ function projector(script, target, args) {
 
     proc.on("message", ({ status, payload }) => {
       if (status === "ready") {
-        proc.send({ script, exportName, args });
+        proc.send({ script, target, args });
       } else if (status === "complete") {
         resolve(payload);
       } else if (status === "error") {

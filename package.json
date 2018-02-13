@@ -9,5 +9,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cachef": "d4rkr00t/cachef",
+    "globby": "^7.1.1",
+    "worker-farm": "^1.5.2"
+  }
 }
