@@ -1,3 +1,5 @@
+// @flow
+
 const { promisify } = require("util");
 const resolve = promisify(require("resolve"));
 const TASKS_CACHE = new Map();
