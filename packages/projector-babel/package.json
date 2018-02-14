@@ -1,0 +1,17 @@
+{
+  "name": "projector-babel",
+  "version": "1.0.0",
+  "description": "Babel task for projector",
+  "main": "index.js",
+  "repository": "git@github.com:projectorjs/projector.git",
+  "author": "James Kyle <me@thejameskyle.com>",
+  "license": "MIT",
+  "files": ["index.js"],
+  "devDependencies": {
+    "flow-bin": "^0.49.1",
+    "jest": "^20.0.4"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0"
+  }
+}

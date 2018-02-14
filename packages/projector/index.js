@@ -72,4 +72,5 @@ function projector(script, target, args) {
   });
 }
 
-module.exports = projector /*: Projector */;
+// prettier-ignore
+module.exports = (projector /*: Projector */);

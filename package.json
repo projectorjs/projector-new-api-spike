@@ -1,18 +1,27 @@
 {
-  "name": "projector",
+  "name": "projector-mono-repo",
+  "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "repository": "projectorjs/projector",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "bolt": "^0.19.3",
     "cachef": "d4rkr00t/cachef",
     "globby": "^7.1.1",
+    "resolve": "^1.5.0",
     "worker-farm": "^1.5.2"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.49.1",
+    "jest": "^20.0.4"
+  },
+  "bolt": {
+    "version": "^0.19.3",
+    "workspaces": [
+      "packages/*"
+    ]
   }
 }
