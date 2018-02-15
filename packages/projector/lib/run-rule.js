@@ -1,8 +1,7 @@
 // @flow
 
 const createCache = require("cachef");
-const { promisify } = require("util");
-const resolve = promisify(require("resolve"));
+const resolveFrom = require("resolve-from");
 const { getInputs, populateInputs } = require("./inputs");
 const createPerfMark = require("./perf");
 
@@ -41,9 +40,9 @@ module.exports = async function runRule(farm, target, rule) {
   console.log(`Running ${target}`);
   const totalTime = createPerfMark("Rule total");
   const cacheTime = createPerfMark("Cache");
-  const dest = require(await resolve(rule.dest.dest, {
-    basedir: process.cwd()
-  }))(rule.dest.params);
+  const dest = require(resolveFrom(process.cwd(), rule.dest.dest))(
+    rule.dest.params
+  );
 
   // TODO: replace with a proper cache implementation
   const cache = await createCache({
